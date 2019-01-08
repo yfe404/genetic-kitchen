@@ -161,7 +161,6 @@ def main(event, context):
 
     
     body = {
-        "target": target,
         "quantities": p.quantities,
         "macros": p.macros
     }

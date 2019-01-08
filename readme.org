@@ -1,1 +1,10 @@
 * Genetic Kitchen
+
+The aim of Genetic Kitchen is to automatically create a menu given a list of ingredients and a target nutrient profile.
+Strongly inspired by https://github.com/yafeunteun/Genetic-Recipe-Generator/wiki
+
+
+#+BEGIN_QUOTE
+Live demo here: http://genetic-kitchen.s3-website-eu-west-1.amazonaws.com
+#+END_QUOTE
+

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>Genetic Kitchen</title>
+	<script src="./js/genetic.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+
+  <h1>Genetic Kitchen</h1>
+
+
+
+  <input type="number" id="nIngredients" name="nIngredients"
+         min="1" max="11">
+  <label for="nIngredients">Number of ingredients</label>
+</div>
+
+
+<button id="solve">Solve</button>
+
+<table id="results">
+	<thead>
+		<tr>
+			<th>Generation</th>
+			<th>Fitness</th>
+			<th>Solution</th>
+		</tr>
+	</thead>
+	<tbody style="font-family: monospace;">
+	</tbody>
+</table>
+
+<script>
+
+  
+var genetic = Genetic.create();
+
+genetic.optimize = Genetic.Optimize.Maximize;
+genetic.select1 = Genetic.Select1.Tournament2;
+genetic.select2 = Genetic.Select2.Tournament2;
+
+genetic.seed = function() {
+
+     var seed = []
+     // create random quantities for each ingredient
+     for (var i = 0; i < this.userData.nIngredients; ++i) {
+	 seed[i] = Math.random();
+     }
+
+     return seed;
+ };
+
+ genetic.mutate = function(entity) {
+     for (var i = 0; i < this.userData.nIngredients; ++i) {
+	 if (Math.random() <= this.mutation) {
+	     entity[i] = Math.random();
+	 }
+     }
+
+     return entity;
+	
+ };
+ genetic.crossover = function(mother, father) {
+
+	// two-point crossover
+	var len = mother.length;
+	var ca = Math.floor(Math.random()*len);
+	var cb = Math.floor(Math.random()*len);		
+	if (ca > cb) {
+		var tmp = cb;
+		cb = ca;
+		ca = tmp;
+	}
+		
+	var son = father.slice(0,ca).concat(mother.slice(ca, cb-ca)).concat(father.slice(cb));
+	var daughter = mother.slice(0,ca).concat(father.slice(ca, cb-ca)).concat(mother.slice(cb));
+	
+	return [son, daughter];
+};
+
+genetic.fitness = function(entity) {
+	var fitness = 0;
+	
+	var i;
+	for (i=0;i<entity.length;++i) {
+	    fitness += entity[i]
+	}
+	return fitness;
+};
+
+genetic.generation = function(pop, generation, stats) {
+	// stop running once we've reached the solution
+	return pop[0].entity != this.userData["solution"];
+};
+
+genetic.notification = function(pop, generation, stats, isFinished) {
+
+	function lerp(a, b, p) {
+		return a + (b-a)*p;
+	}
+	
+	var value = pop[0].entity;
+	this.last = this.last||value;
+	
+	if (pop != 0 && value == this.last)
+		return;
+	
+	
+	var solution = [];
+	var i;
+	
+	var buf = "";
+	buf += "<tr>";
+	buf += "<td>" + generation + "</td>";
+	buf += "<td>" + pop[0].fitness.toPrecision(5) + "</td>";
+	buf += "<td>" + pop[0].entity.map(x => x.toPrecision(2)).join(" | ") + "</td>";
+	buf += "</tr>";
+	$("#results tbody").html(buf);
+	
+	this.last = value;
+};
+
+
+ $(document).ready(function () {
+     
+	$("#solve").click(function () {
+		
+		$("#results tbody").html("");
+		
+		var config = {
+			"iterations": 100
+			, "size": 200
+			, "crossover": 0.3
+			, "mutation": 0.3
+			, "skip": 20
+		};
+
+		var userData = {
+		    "nIngredients": $("#nIngredients").val()
+		};
+
+		genetic.evolve(config, userData);
+	});
+});
+
+</script>
+	
+</body>
+</html>

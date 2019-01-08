@@ -1,10 +1,10 @@
+* Genetic Kitchen
 
-{
-    "statusCode": 200,
-    "body": "{\"quantities\": {\"Beurre de cacahu\\u00e8tes\": 3.166286535032836, \"Myrtilles\": 29.53340831793536, \"Framboises\": 92.19509854651605, \"Pomme\": 7.076589001833522, \"Graines de courge\": 50.473431539012395, \"Flocons de soja\": 70.49967595132875}, \"macros\": {\"proteins\": 42, \"carbohydrates\": 23, \"fats\": 39, \"calories\": 600}}"
-}
+#+BEGIN_QUOTE
+Serveless is the ultimate evolution
 
-
+- Charles Darwin
+#+END_QUOTE
 
 ** Deploy
 

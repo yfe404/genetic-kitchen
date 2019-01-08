@@ -1,0 +1,50 @@
+
+{
+    "statusCode": 200,
+    "body": "{\"quantities\": {\"Beurre de cacahu\\u00e8tes\": 3.166286535032836, \"Myrtilles\": 29.53340831793536, \"Framboises\": 92.19509854651605, \"Pomme\": 7.076589001833522, \"Graines de courge\": 50.473431539012395, \"Flocons de soja\": 70.49967595132875}, \"macros\": {\"proteins\": 42, \"carbohydrates\": 23, \"fats\": 39, \"calories\": 600}}"
+}
+
+
+
+** Deploy
+
+In order to deploy the you endpoint simply run
+
+#+BEGIN_SRC sh
+serverless deploy
+#+END_SRC
+
+
+** Usage
+
+You can now invoke the Lambda directly and even see the resulting log via
+
+#+BEGIN_SRC sh
+sls invoke -f evolve -p mocks/evolve-event.json 
+#+END_SRC
+
+
+The expected result should be similar to:
+
+#+BEGIN_SRC js
+{
+	"statusCode": 200,
+	"body": {
+		"quantities": {
+			"Beurre de cacahuetes": 3.166286535032836,
+			"Myrtilles": 29.53340831793536,
+			"Framboises": 92.19509854651605,
+			"Pomme": 7.076589001833522,
+			"Graines de courge": 50.473431539012395,
+			"Flocons de soja": 70.49967595132875
+		},
+		"macros": {
+			"proteins": 42,
+			"carbohydrates": 23,
+			"fats": 39,
+			"calories": 600
+		}
+	}
+}
+#+END_SRC
+

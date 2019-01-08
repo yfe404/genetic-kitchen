@@ -1,0 +1,26 @@
+service: backend
+
+frameworkVersion: ">=1.2.0 <2.0.0"
+
+plugins:
+  - serverless-python-requirements
+
+package:
+  exclude:
+    - venv/**
+    
+custom:
+  pythonRequirements:
+    dockerizePip: non-linux
+
+provider:
+  name: aws
+  runtime: python3.6
+
+functions:
+  evolve:
+    handler: evolve.main
+    events:
+      - http:
+          path: /
+          method: post

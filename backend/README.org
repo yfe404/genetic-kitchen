@@ -1,7 +1,7 @@
 * Genetic Kitchen
 
 #+BEGIN_QUOTE
-Serveless is the ultimate evolution
+Serverless is the ultimate evolution
 
 - Charles Darwin
 #+END_QUOTE

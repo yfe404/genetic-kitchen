@@ -49,7 +49,7 @@ def score(ingredient_list, target, lockers, genome):
     ## Replace the alleles that are locked in the the genome
     if lockers:
         for idx in range(len(genome)):
-            if lockers[idx]:
+            if lockers[idx] >= 0:
                 genome[idx] = lockers[idx] / ingredient_list[idx].quantity 
     
     #print(genome, ingredient_list, target)
@@ -114,7 +114,7 @@ class ThisIsMadness():
 
         self.quantities = list()
         for idx, ingredient in enumerate(self.ingredients):
-            if self.lockers and self.lockers[idx]:
+            if self.lockers and self.lockers[idx] >= 0:
                 self.quantities.append(self.lockers[idx])
             else:
                 self.quantities.append(self.hof.items[0][idx])
@@ -146,6 +146,7 @@ def main(event, context):
     data = json.loads(event['body'])
     target_data = data['target']
     ingredients_data = data['ingredients']
+    lockers_data = data['lockers']
     
     ingredients_all = list()
 
@@ -154,7 +155,7 @@ def main(event, context):
 
     target = Target(**target_data)
     
-    p = ThisIsMadness(ingredients_all, target)
+    p = ThisIsMadness(ingredients_all, target, lockers_data)
     p.solve()
     print(p.quantities)
     print(p.macros)

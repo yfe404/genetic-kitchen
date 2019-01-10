@@ -143,32 +143,49 @@ class ThisIsMadness():
 
 def main(event, context):
 
-    data = json.loads(event['body'])
-    target_data = data['target']
-    ingredients_data = data['ingredients']
-    lockers_data = data['lockers']
+    try:
+        data = json.loads(event['body'])
+        print(data)
+        target_data = data['target']
+        ingredients_data = data['ingredients']
+        lockers_data = data['lockers']
     
-    ingredients_all = list()
+        ingredients_all = list()
 
-    for ingredient in ingredients_data:
-        ingredients_all.append(Ingredient(**ingredient))
+        for ingredient in ingredients_data:
+            ingredients_all.append(Ingredient(**ingredient))
 
-    target = Target(**target_data)
+        target = Target(**target_data)
     
-    p = ThisIsMadness(ingredients_all, target, lockers_data)
-    p.solve()
-    print(p.quantities)
-    print(p.macros)
+        p = ThisIsMadness(ingredients_all, target, lockers_data)
+        p.solve()
+        print(p.quantities)
+        print(p.macros)
 
     
-    body = {
-        "quantities": p.quantities,
-        "macros": p.macros
-    }
+        body = {
+            "quantities": p.quantities,
+            "macros": p.macros
+        }
 
-    response = {
-        "statusCode": 200,
-        "body": json.dumps(body)
-    }
+        response = {
+            "statusCode": 200,
+            "headers": {
+	        "Access-Control-Allow-Origin": "*",
+	        "Access-Control-Allow-Credentials": True
+            },
+            "body": json.dumps(body)
+        }
+    
 
-    return response
+        return response
+    except Exception as err:
+        response = {
+            "statusCode": 500,
+            "headers": {
+	        "Access-Control-Allow-Origin": "*",
+	        "Access-Control-Allow-Credentials": True
+            },
+            "body": json.dumps({"message": str(err)})
+        }
+        return response

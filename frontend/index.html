@@ -1,114 +1,205 @@
+<!DOCTYPE html>
 <html>
-<head>
-    <title>Genetic Kitchen</title>
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+  <head>
+      <meta charset="UTF-8">
+      <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
-<script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
 
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    
+      <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.6/dist/loadingoverlay.min.js"></script>
+      <script type="text/javascript">
+       $(document).ready(function(){
+           $(".add-row").click(function(){
+               var name = $("#name").val();
+               var calories = $("#calories").val();
+               var proteins = $("#proteins").val();
+               var carbohydrates = $("#carbohydrates").val();
+               var fats = $("#fats").val();
+               var markup = "<tr><td><input type='checkbox' name='record'></td><td>" + name + "</td><td>" + calories + "</td><td>" + proteins + "</td><td>" + carbohydrates + "</td><td>" + fats + "</td></tr>";
+               $("table tbody").append(markup);
+           });
+        
+           // Find and remove selected table rows
+           $(".delete-row").click(function(){
+               $("table tbody").find('input[name="record"]').each(function(){
+		   if($(this).is(":checked")){
+                       $(this).parents("tr").remove();
+                   }
+               });
+           });
+       });    
+      </script>
+      
+    <title>title</title>
+  </head>
+  <body>
+      <form>
+          <input type="text" id="name" placeholder="e.g. Kiwi">
+          <input type="number" id="calories" placeholder="Calories">
+          <input type="number" id="proteins" placeholder="proteins">
+          <input type="number" id="carbohydrates" placeholder="Carbohydrates">
+          <input type="number" id="fats" placeholder="Fats">
+    	  <input type="button" class="add-row" value="Add Row">
+	  <input type="button" class="load-example" value="Load Example">
+      </form>
+      <table>
+          <thead>
+              <tr>
+                  <th>Select</th>
+                  <th>Name</th>
+                  <th>Calories</th>
+                  <th>Proteins</th>
+                  <th>Carbohydrates</th>
+                  <th>Fats</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td><input type="checkbox" name="record"></td>
+                  <td>Apple</td>
+                  <td>54</td>
+                  <td>0.3</td>
+                  <td>12</td>
+          	  <td>0.3</td>	
+              </tr>
+          </tbody>
+      </table>
+      <button type="button" class="delete-row">Delete Row</button>
+      <button id="evolve">Evolve Recipe (Darwinize)</button>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
-<link href="css/sticky-footer.css" rel="stylesheet" />
+       <textarea rows="4" cols="50" id="api-response"></textarea>
 
-</head>
-<body>
-        <script type="text/javascript" src="GeneticKitchen.js"></script>
-        <script type="text/javascript" src="Recipe.js"></script>
-        <script type="text/javascript" src="app.js"></script>
-	<div class="container">
-	  <div class="row">
-	    <div class="col-xs-4">
-              <h1 align="center">Genetic Kitchen</h1>
-	      <p align="center">
-		<em>Comment est votre blanquette ?</em>
-	      </p>
-	      <p><br></p>
-	    </div>
-	    <div class="col-xs-8">
-	      <br>
+       <form class="form-inline">
+	   <label  for="input-calories">Calories: </label>
+	   <input class="form-control mb-2 mr-sm-2 mb-sm-0" id="input-calories" placeholder="", readonly="">
+	   <label  for="input-proteins">Proteins: </label>
+	   <input class="form-control mb-2 mr-sm-2 mb-sm-0" id="input-proteins" placeholder="", readonly="">
+	   <label  for="input-carbs">Carbohydrates: </label>
+	   <input class="form-control mb-2 mr-sm-2 mb-sm-0" id="input-carbs" placeholder="", readonly="">
+	   <label  for="input-fats">Fats: </label>
+	   <input class="form-control mb-2 mr-sm-2 mb-sm-0" id="input-fats" placeholder="", readonly="">
 
-	    <form class="form-inline" align="center">
-	    <label>Generation:</label>
-            <input class="generation form-control input-sm" type="text" style="width: 50px; text-align: center; margin-right: 20px; margin-left: 10px" />
-            <button type="button" class="btn btn-primary start-genetic-algorithm" style="display: inline-block;"><i class="fas fa-play"></i></button>
-            <button type="button" class="btn btn-primary pause-genetic-algorithm" style="display: none;"><i class="fas fa-pause"></i></button>
-            <button type="button" class="btn btn-default step-genetic-algorithm"><i class="fas fa-step-forward"></i></button>
-            <button type="button" class="btn btn-default reset-genetic-algorithm"><i class="fas fa-sync-alt"></i></button>
-	    </form>
+	   <button type="submit" class="btn btn-primary">Submit</button>
+       </form>
+       
+       <table class="table table-hover">
+	   <thead>
+	       <tr> <th>#</th>
+		   <th>Ingredient</th>
+		   <th>Quantity</th>
+	       </tr>
 
-	    <form class="form-inline" align="center">
-            <label>Population:</label>
-            <input class="population form-control input-sm" type="text" style="width: 50px; text-align: center" value="100">
-            <label style="margin-left: 20px;">Mutation probability:</label>
-            <input class="mutation-probability form-control" type="text" style="text-align: center; width: 50px" value="0.5">
-            <label style="margin-left: 20px;">Mutation multiplier:</label>
-            <input class="mutation-multiplier form-control" type="text" style="text-align: center; width: 50px" value="0.1">
-            <label style="margin-left: 20px;">Death rate:</label>
-            <input class="death-rate form-control input-sm" type="text" style="width: 50px; text-align: center" value="0.3">
-            </form>
+	   </thead>
+	   <tbody>
 
-	  </div>
-	</div> <!-- row -->
+	   </tbody>
+       </table>
+      
+  </body>
 
-	<div class="row">
-	  <div class="col-xs-4">
-            <div id="table"></div>
-	  </div>
+  <script>
+   
+   $("#evolve").click(
+       function(){
+	   $.LoadingOverlay("show");
+	   $.ajax({
+	       url: "https://kiygr21na4.execute-api.eu-west-1.amazonaws.com/dev/",
+	       method: "POST",
+	       data: JSON.stringify({
+		   "target": {
+		       "proteins": 0,
+		       "carbohydrates": 0,
+		       "fats": 0,
+		       "calories": 600
+		   },
+		   "ingredients": [{
+		       "name": "Beurre de cacahuètes",
+		       "quantity": 100,
+		       "unit": "g",
+		       "calories": 592,
+		       "proteins": 22.4,
+		       "carbohydrates": 21,
+		       "fats": 51.5
+		   }, {
+		       "name": "Myrtilles",
+		       "quantity": 100,
+		       "unit": "g",
+		       "calories": 70.5,
+		       "proteins": 1,
+		       "carbohydrates": 15.5,
+		       "fats": 0.5
+		   }, {
+		       "name": "Framboises",
+		       "quantity": 100,
+		       "unit": "g",
+		       "calories": 36,
+		       "proteins": 1,
+		       "carbohydrates": 8,
+		       "fats": 0
+		   }, {
+		       "name": "Pomme",
+		       "quantity": 100,
+		       "unit": "g",
+		       "calories": 54,
+		       "proteins": 0.3,
+		       "carbohydrates": 12,
+		       "fats": 0.3
+		   }, {
+		       "name": "Graines de courge",
+		       "quantity": 100,
+		       "unit": "g",
+		       "calories": 553,
+		       "proteins": 29,
+		       "carbohydrates": 15,
+		       "fats": 46.7
+		   }, {
+		       "name": "Flocons de soja",
+		       "quantity": 100,
+		       "unit": "g",
+		       "calories": 347,
+		       "proteins": 37.3,
+		       "carbohydrates": 3.1,
+		       "fats": 20.6
+		   }],
+		   "lockers": [15, 40, -1, -1, -1, -1]
+	       }),
+	       dataType: "json",
+	       success: function(){
 
-	  <div class="col-xs-8">
-            <h2>What is this?</h2>
-            <p>Genetic Kitchen is an attempt to automatically create a healthy recipe given a list of ingredients and a target nutrient profile.</p>
-            <p>You can play with it by pressing <i class="icon-step-forward"></i> to step to the next generation, <i class="icon-play"></i> to step to next generations automatically and <i class="icon-refresh"></i> to reset the simulation.</p>
-            <p>Find the code at <a href="http://github.com/yafeunteun/genetic-kitchen">http://github.com/yafeunteun/genetic-kitchen</a></p>
-            <h2>How it works</h2>
-            <ul>
-              <li>Generate 100 recipes, each recipe containing a random amount of each ingredient.</li>
-              <li>Score each recipe based on how close all the nutrients are to 100%.</li>
-              <li>Sort the recipes from best to worst.</li>
-              <li>Show the best one in the table above.</li>
-            </ul>
-            <p>On each subsequent 'generation', the following happens:</p>
-            <ul>
-              <li>Remove the worst 30 recipes from the list</li>
-              <li>Create 30 new Child recipes containing ingredient amounts taken from two randomly selected Parent recipes.</li>
-              <li>Ingredient amounts in each Child can also be mutated if the 'mutation probability' is met.</li>
-              <li>A mutation works by taking a random ingredient and increasing or decreasing the amount defined by the 'mutation multiplier'. For example, a mutation multiplier of 0.1 will increase or decrease the amount of an ingredient by 10%.</li>
-              <li>Finally, we re-calculate the scores for each recipe, sort them, and show the best one in the table.</li>
-            </ul>
-	  </div>
-	</div>
-
-</div>
-      <div class="container">
-        <span class="text-muted"><i class="far fa-copyright"></i> Nutrimium 2019</span>
-      </div>
-    
-
-    <script type="text/javascript">
-
-        var ingredients = [
-            { name: 'Brown Sugar',  calories: 281, carbs: 73, protein: 0,  fat: 0,  maxAmount: 8  },
-            { name: 'Baking Cocoa', calories: 86,  carbs: 11, protein: 3,  fat: 3,  maxAmount: 25 },
-            { name: 'Oat Flower',   calories: 486, carbs: 79, protein: 20, fat: 11, maxAmount: 6  },
-            { name: 'Flaxseed',     calories: 123, carbs: 7,  protein: 5,  fat: 9,  maxAmount: 18 },
-            { name: 'Olive Oil',    calories: 750, carbs: 0,  protein: 0,  fat: 85, maxAmount: 3  }
-        ];
-
-        var testGeneticKitchen = new GeneticKitchen({
-            ingredients: ingredients,
-            targetNutrients: {
-                calories: 2000,
-                carbs:    250,
-                protein:  85,
-                fat:      65
-            }
-        });
-
-    </script>
-
-</body>
+	       }
+	   }).done(function( data ) {
+	       $.LoadingOverlay("hide");
+	       $(".table").children()[1]["innerHTML"] = ""; // reset content of the table aka rows.
+	       console.log(data);
+	       for (var property in data.quantities) {
+		   if (data.quantities.hasOwnProperty(property)) {
+		       var buf = "<tr>";
+		       buf += "<th scope='row'>1</th>";
+		       buf += "<td>" + property + "</td>";
+		       buf += "<td>" + data.quantities[property] + "</td>";
+		       buf += "</tr>";
+		       console.log(buf);
+		       $(".table").children()[1]["innerHTML"] += buf; 
+		   }
+	       }
+	       $("#input-calories").val(data.macros["calories"]);
+	       $("#input-proteins").val(data.macros["proteins"]);
+	       $("#input-carbs").val(data.macros["carbohydrates"]);
+	       $("#input-fats").val(data.macros["fats"]);
+	       $("#api-response").val(JSON.stringify(data));
+	   });
+       });
+  </script>
+  
 </html>
+
+  
+
+
+
+
+
+
+
+
+

@@ -1,7 +1,6 @@
 {
 
     "body": "{\"target\": {\"proteins\": 0, \"carbohydrates\": 0, \"fats\": 0, \"calories\": 600}, \"ingredients\": [ {\"name\": \"Beurre de cacahuètes\",\"quantity\": 100,\"unit\": \"g\",\"calories\": 592,\"proteins\": 22.4,\"carbohydrates\": 21,\"fats\": 51.5}, {\"name\":\"Myrtilles\", \"quantity\": 100, \"unit\": \"g\", \"calories\": 70.5, \"proteins\": 1, \"carbohydrates\": 15.5, \"fats\": 0.5}, {\"name\":\"Framboises\", \"quantity\": 100, \"unit\": \"g\", \"calories\": 36, \"proteins\": 1, \"carbohydrates\": 8, \"fats\": 0}, {\"name\":\"Pomme\", \"quantity\": 100, \"unit\": \"g\", \"calories\": 54, \"proteins\": 0.3, \"carbohydrates\": 12, \"fats\": 0.3}, {\"name\":\"Graines de courge\", \"quantity\": 100, \"unit\": \"g\", \"calories\": 553, \"proteins\": 29, \"carbohydrates\": 15, \"fats\": 46.7}, {\"name\":\"Flocons de soja\", \"quantity\": 100, \"unit\": \"g\", \"calories\": 347, \"proteins\": 37.3, \"carbohydrates\": 3.1, \"fats\": 20.6}], \"lockers\": [15, 40, -1, -1, -1, -1]}"
-
 }
 
 
